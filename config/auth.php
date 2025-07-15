@@ -40,19 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'user' => [
+        'kepalakamar' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'kepalakamar',
         ],
-        'santri' => [
-            'driver' => 'session',
-            'provider' => 'santris',
-        ],
-    //     // 'admin' => [
-    //     // 'driver' => 'session',
-    //     // 'provider' => 'admins',
-    // ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -74,14 +67,14 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'kepalakamar' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\KepalaKamar::class,
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

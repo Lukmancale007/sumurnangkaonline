@@ -14,25 +14,42 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SantriController extends Controller
 {
-    public function index(){
+    public function index(Request $request)
+    {
+        $query = Santri::query();
 
-        $santri = Santri::paginate(10);
+        // Filter gender hanya jika ada dan bukan 'semua'
+        if ($request->has('gender') && in_array($request->gender, ['putra', 'putri'])) {
+            $query->where('gender', $request->gender);
+        }
+
+        $santri = $query->paginate(10);
         $asrama = Asrama::all();
         $jumlahPutra = Santri::where('gender', 'putra')->count();
         $jumlahPutri = Santri::where('gender', 'putri')->count();
         $santrinonactive = Status::where('name', 'non-aktif')->count();
         $kamars = Kamar::all();
 
-        return view('admin.santri.index', compact('santri', 'asrama','kamars','jumlahPutra','jumlahPutri','santrinonactive'));
+        return view('admin.santri.index', compact(
+            'santri',
+            'asrama',
+            'kamars',
+            'jumlahPutra',
+            'jumlahPutri',
+            'santrinonactive'
+        ));
     }
-    public function create()   {
+
+    public function create()
+    {
         //
 
-       $kamars = Kamar::all();
+        $kamars = Kamar::all();
         return view('create', compact('kamars'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         // //
         // Santri::create($request->all());
         $request->validate([
@@ -43,13 +60,13 @@ class SantriController extends Controller
         $image->storeAs('public/images', $image->hashName());
         // dua baris dibawah ini kode untuk menentukan aktif atau tidak
         $santri = Santri::create([
-            'image'         => $image->hashName(),
-            'nama'         => $request->nama,
-            'tanggal_lahir'   => $request->tanggal_lahir,
-            'kamar_id'         => $request->kamar_id,
-            'alamat'         => $request->alamat,
-            'ayah'         => $request->ayah,
-            'ibu'         => $request->ibu,
+            'image' => $image->hashName(),
+            'nama' => $request->nama,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'kamar_id' => $request->kamar_id,
+            'alamat' => $request->alamat,
+            'ayah' => $request->ayah,
+            'ibu' => $request->ibu,
             'gender' => $request->input('gender')
         ]);
         $santri->setStatus('aktif');
@@ -73,19 +90,21 @@ class SantriController extends Controller
         return back()->with('success', 'Alhamdulillah Data Santri Berhasil Ditambahkan');
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         //
         $santri = Santri::find($id);
         $asrama = Asrama::all();
-        return view('admin.santri.edit', compact('santri','asrama'));
+        return view('admin.santri.edit', compact('santri', 'asrama'));
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         //
         Santri::find($id)->update($request->all());
         return redirect()->route('santri.index')->with('success', 'Alhamdulillah Data Santri Berhasil Diubah');
     }
-    public function delete(Request $request, $id) :RedirectResponse
+    public function delete(Request $request, $id): RedirectResponse
     {
         $santri = Santri::findOrFail($id);
 
@@ -97,19 +116,19 @@ class SantriController extends Controller
     public function show(string $id)
     {
         $santri = Santri::findOrFail($id);
-        return view('admin.santri.show',  compact('santri'));
+        return view('admin.santri.show', compact('santri'));
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
 
-    if($request->has('search')){
-            $santri = Santri::where('nama','LIKE','%'.$request->search.'%')->get();
-    }
-    else {
-        $santri = Santri::all();
-    }
+        if ($request->has('search')) {
+            $santri = Santri::where('nama', 'LIKE', '%' . $request->search . '%')->get();
+        } else {
+            $santri = Santri::all();
+        }
 
-    return view('admin.santri.index',['santri' => $santri]);
-    // return back ();
-}
+        return view('admin.santri.index', ['santri' => $santri]);
+        // return back ();
+    }
 }

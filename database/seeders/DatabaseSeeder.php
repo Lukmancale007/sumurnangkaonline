@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Kamar;
 use App\Models\User;
+use App\Models\KepalaKamar;
 use App\Models\Santri;
 use App\Models\Umana;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -74,13 +76,13 @@ class DatabaseSeeder extends Seeder
         //     'password' => bcrypt('123'),
         //     'role_id' => 2, // Gantilah 2 dengan ID peran yang sesuai
         // ]);
-        User::create([
-            'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('123'),
-            'role_id' => 1, // Gantilah 2 dengan ID peran yang sesuai
-        ]);
+        // User::create([
+        //     'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
+        //     'name' => 'kepalakamar',
+        //     'email' => 'kepalakamar@gmail.com',
+        //     'password' => bcrypt('123'),
+        //     'role_id' => 3, // Gantilah 2 dengan ID peran yang sesuai
+        // ]);
         // Santri::create([
         // 'kode' => 'S001',
         // 'nama' => 'Ahmad Fauzi',
@@ -117,5 +119,12 @@ class DatabaseSeeder extends Seeder
         //     'nomor_wa' => '6285745549410',
 
         // ]);
+
+        KepalaKamar::create([
+            'username' => 'kamarlukman',
+            'password' => Hash::make('123456'),
+            'kamar_id' => 1,
+        ]);
+
     }
 }

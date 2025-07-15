@@ -1,68 +1,59 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\KepalaKamar;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function showLoginForm()
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        return view('auth.login');
     }
 
-    protected function redirectTo()
+    public function login(Request $request)
     {
-        // Dapatkan pengguna yang sedang login
-        $user = Auth::user();
-        // Arahkan pengguna ke halaman sesuai peran mereka
-        if ($user->role_id === 1) {
-            // Admin
-            return 'admin/home';
-        } elseif ($user->role_id === 2) {
-            // User
-            return 'user/home';
-        } elseif ($user->role_id === 3) {
-            // Asrama
-            return 'asrama/home';
-        } elseif ($user->role_id === 4) {
-            // Kamtib
-            return 'kamtib/home';
+        $credentials = $request->only('email', 'password');
+
+        // Coba login dari users (admin, asrama, dsb)
+        if (Auth::guard('web')->attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $role = Auth::user()->role->name;
+
+            return match ($role) {
+                'admin' => redirect()->intended('/admin/home'),
+                'asrama' => redirect()->intended('/asrama/home'),
+                'bendahara' => redirect()->intended('/bendahara/laporan-gaji'),
+                'kamtib' => redirect()->intended('/kamtib/izinsantri'),
+                default => redirect('/'),
+            };
         }
 
-        // Jika peran tidak sesuai, arahkan ke halaman default
-        return '/home';
+        // Jika gagal, coba login sebagai kepala kamar
+        $kamarCredentials = $request->only('email', 'password'); // pakai email = username
+
+        if (Auth::guard('kepalakamar')->attempt(['username' => $kamarCredentials['email'], 'password' => $kamarCredentials['password']])) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/kepalakamar/home');
+        }
+
+        return back()->withErrors([
+            'email' => 'Email/Username atau password salah.',
+        ]);
     }
 
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+        Auth::guard('kepalakamar')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }

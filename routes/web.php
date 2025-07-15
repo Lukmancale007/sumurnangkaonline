@@ -85,7 +85,7 @@ Route::prefix('kamtib')->middleware(['auth', 'role:kamtib'])->group(function () 
     Route::get('/cetaksuratizin-pdf({id})', [App\Http\Controllers\kamtib\IzinsantriController::class, 'generatePDF']);
 
 });
-Route::prefix('kepalakamar')->middleware(['auth', 'role:kepalakamar'])->group(function () {
+Route::prefix('kepalakamar')->middleware(['auth:kepalakamar'])->group(function () {
 
     Route::resource('home', HomeController::class)->names('kepalakamara.home');
     Route::resource('dataanakkamar', SantriController::class)->names('kepalakamar.datanakkamar');

@@ -19,19 +19,7 @@ class RoleMiddleware
     public function handle($request, Closure $next, $role)
     {
         if (!Auth::check()) {
-            // $user = Auth::user();
 
-            // if ($user->role_id === 1) {
-            //     return redirect()->route('admin.home');
-            // } elseif ($user->role_id === 2) {
-            //     return redirect()->route('user.home');
-            // } elseif ($user->role_id === 3) {
-            //     return redirect()->route('asrama.home');
-            // } elseif ($user->role_id === 4) {
-            //     return redirect()->route('kamtib.home');
-            // }
-            //  // // Jika pengguna belum login, arahkan ke halaman login
-            // return redirect()->route('login');
         }
 
         if (Auth::user()->role->name !== $role) {
@@ -43,4 +31,3 @@ class RoleMiddleware
     }
 
 }
-
