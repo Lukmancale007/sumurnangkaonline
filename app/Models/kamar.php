@@ -3,21 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo; // ✅ BENAR
 
 class Kamar extends Model
 {
-    use HasFactory;
+    protected $fillable = ['nama_kamar', 'kepala_kamar_id'];
 
-    protected $fillable = ['nama_kamar', 'ketua_kamar_id'];
-
-    public function ketuaKamar()
-{
-    return $this->belongsTo(Santri::class, 'ketua_kamar_id');
-}
-
-    public function santris()
+    public function kepalaKamar(): BelongsTo
     {
-        return $this->hasMany(Santri::class);
+        return $this->belongsTo(KepalaKamar::class, 'kepala_kamar_id');
+
     }
 }

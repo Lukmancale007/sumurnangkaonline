@@ -69,20 +69,20 @@ class DatabaseSeeder extends Seeder
         //   ,  'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]
-        // User::create([
-        //     'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
-        //     'name' => 'asrama',
-        //     'email' => 'asrama@gmail.com',
-        //     'password' => bcrypt('123'),
-        //     'role_id' => 2, // Gantilah 2 dengan ID peran yang sesuai
-        // ]);
-        // User::create([
-        //     'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
-        //     'name' => 'kepalakamar',
-        //     'email' => 'kepalakamar@gmail.com',
-        //     'password' => bcrypt('123'),
-        //     'role_id' => 3, // Gantilah 2 dengan ID peran yang sesuai
-        // ]);
+        User::create([
+            'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
+            'name' => 'asrama',
+            'email' => 'asrama@gmail.com',
+            'password' => bcrypt('123'),
+            'role_id' => 2, // Gantilah 2 dengan ID peran yang sesuai
+        ]);
+        User::create([
+            'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
+            'name' => 'kepalakamar',
+            'email' => 'kepalakamar@gmail.com',
+            'password' => bcrypt('123'),
+            'role_id' => 3, // Gantilah 2 dengan ID peran yang sesuai
+        ]);
         // Santri::create([
         // 'kode' => 'S001',
         // 'nama' => 'Ahmad Fauzi',
@@ -120,11 +120,51 @@ class DatabaseSeeder extends Seeder
 
         // ]);
 
-        KepalaKamar::create([
-            'username' => 'kamarlukman',
-            'password' => Hash::make('123456'),
-            'kamar_id' => 1,
-        ]);
+        // KepalaKamar::create([
+        //     'username' => 'kamarlukman',
+        //     'password' => Hash::make('123456'),
+        //     'kamar_id' => 1,
+        // ]);
+        // {
+        //     // Seeder untuk kamar
+        //     $kamars = ['Al-Fatih', 'An-Nur', 'Ar-Rahman', 'As-Salam', 'Al-Hikmah'];
+        //     foreach ($kamars as $nama) {
+        //         Kamar::create(['nama_kamar' => $nama]);
+        //     }
+
+        //     // Seeder untuk kepala kamar dengan password berbeda-beda
+        //     $data = [
+        //         ['nama' => 'Ahmad Fauzi', 'password' => 'fauzi123', 'kamar_nama' => 'Al-Fatih'],
+        //         ['nama' => 'Budi Santoso', 'password' => 'budi456', 'kamar_nama' => 'An-Nur'],
+        //         ['nama' => 'Dani Firmansyah', 'password' => 'dani789', 'kamar_nama' => 'Ar-Rahman'],
+        //     ];
+
+        //     foreach ($data as $item) {
+        //         $kamar = Kamar::where('nama_kamar', $item['kamar_nama'])->first();
+
+        //         if ($kamar && is_null($kamar->kepala_kamar_id)) {
+        //             $username = strtolower(str_replace(' ', '_', $item['nama']));
+        //             $original = $username;
+        //             $i = 1;
+
+        //             while (KepalaKamar::where('username', $username)->exists()) {
+        //                 $username = $original . '_' . $i++;
+        //             }
+
+        //             $kepala = KepalaKamar::create([
+        //                 'nama' => $item['nama'],
+        //                 'username' => $username,
+        //                 'password' => bcrypt($item['password']),
+        //                 'kamar_id' => $kamar->id,
+        //             ]);
+
+        //             $kamar->kepala_kamar_id = $kepala->id;
+        //             $kamar->save();
+        //         }
+        //     }
+        // }
+
+
 
     }
 }

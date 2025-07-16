@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\AbsensiUmanaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\datapengguna;
+use App\Http\Controllers\KamarController;
+use App\Http\Controllers\IzinUmanaController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\JadwalShiftController;
-use App\Http\Controllers\IzinUmanaController;
+use App\Http\Controllers\KepalaKamarController;
+use App\Http\Controllers\AbsensiUmanaController;
 use App\Http\Controllers\Admin\AsramaController;
 use App\Http\Controllers\Admin\SantriController;
 use App\Http\Controllers\Admin\StatusController;
@@ -68,10 +70,10 @@ Route::prefix('asrama')->middleware(['auth', 'role:asrama'])->group(function () 
     Route::get('detail-santri({id})', [App\Http\Controllers\Admin\SantriController::class, 'show']);
     Route::get('status/update', [StatusController::class, 'update'])->name('asrama.status.update');
 
-    Route::resource('asrama', AsramaController::class);
-    Route::get('tambah-asrama', [App\Http\Controllers\Admin\SantriController::class, 'create']);
-    Route::get('edit-asrama({id})', [App\Http\Controllers\Admin\AsramaController::class, 'edit']);
-    Route::get('delete-asrama({id})', [App\Http\Controllers\Admin\AsramaController::class, 'delete']);
+    // Route::resource('asrama', AsramaController::class);
+    // Route::get('tambah-asrama', [App\Http\Controllers\Admin\SantriController::class, 'create']);
+    // Route::get('edit-asrama({id})', [App\Http\Controllers\Admin\AsramaController::class, 'edit']);
+    // Route::get('delete-asrama({id})', [App\Http\Controllers\Admin\AsramaController::class, 'delete']);
 
 });
 
@@ -124,3 +126,9 @@ Route::get('/api/kamar/{id}/ketua', [\App\Http\Controllers\admin\KamarController
 
 Route::get('/absensikehadiran', [AbsensiUmanaController::class, 'index']);
 Route::post('/absensikehadiran', [AbsensiUmanaController::class, 'store'])->name('absensi.store');
+
+
+
+
+Route::resource('kepala_kamar', KepalaKamarController::class);
+Route::get('/kamar-index', [KamarController::class, 'index']);

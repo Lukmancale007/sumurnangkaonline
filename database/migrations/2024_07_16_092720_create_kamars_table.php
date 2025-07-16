@@ -4,19 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('kamars', function (Blueprint $table) {
-        $table->id();
-        $table->string('nama_kamar');
-        $table->timestamps();
-    });
+            $table->id();
+            $table->string('nama_kamar');
+            $table->foreignId('kepala_kamar_id')->nullable();
+            $table->timestamps();
+        });
     }
+
 
     /**
      * Reverse the migrations.

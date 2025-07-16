@@ -50,19 +50,6 @@
                         @include('admin.santri.tambah')
                         @endif
                     </div>
-
-                    @if(auth()->user()->role->name == 'admin' || auth()->user()->role->name == 'asrama')
-                    {{-- Form Filter Gender (kanan) --}}
-                    <div class="mb-2">
-                        <form method="GET" action="{{ route('admin.santri.index') }}" class="d-flex">
-                            <select name="gender" class="form-select form-select-sm" onchange="this.form.submit()">
-                                <option value="">-- Semua Santri --</option>
-                                <option value="putra" {{ request('gender')=='putra' ? 'selected' : '' }}>Putra</option>
-                                <option value="putri" {{ request('gender')=='putri' ? 'selected' : '' }}>Putri</option>
-                            </select>
-                        </form>
-                    </div>
-                    @endif
                 </div>
 
                 <div class="d-flex flex-wrap">
@@ -112,6 +99,76 @@
                         <div class="fw-semibold fs-6 text-gray-500">Santri Tidak Aktif</div>
                         <!--end::Label-->
                     </div>
+
+                    @if(auth()->user()->role->name == 'admin' || auth()->user()->role->name == 'asrama' )
+                    {{-- Form Filter Gender (kanan) --}}
+                    <div class="mb-2 mt-8 ms-auto">
+                        <div class="m-0">
+                            <!--begin::Menu toggle-->
+                            <a class="btn btn-lg btn-flex btn-secondary fw-bold px-6" style="min-width: 200px;"
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                <i class="ki-duotone ki-filter fs-6 text-muted me-1">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i> Filter Data Santri</a>
+                            <!--end::Menu toggle-->
+                            <!--begin::Menu 1-->
+                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true"
+                                id="kt_menu_667817148a847">
+                                <!--begin::Header-->
+                                <div class="px-7 py-5">
+                                    <div class="fs-5 text-gray-900 fw-bold">Filter Options</div>
+                                </div>
+                                <!--end::Header-->
+                                <!--begin::Menu separator-->
+                                <div class="separator border-gray-200"></div>
+                                <!--end::Menu separator-->
+                                <!--begin::Form-->
+                                <div class="px-7 py-5">
+                                    <!--begin::Input group-->
+                                    <div class="mb-10">
+                                        <!--begin::Label-->
+                                        <label class="form-label fw-semibold">Status:</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <div>
+                                            @php
+                                            $userRole = auth()->user()->role->name;
+                                            $routeName = match($userRole) {
+                                            'admin' => 'admin.santri.index', // ini routenya
+                                            'asrama' => 'asrama.santri.index',
+                                            default => '#', // fallback jika role tidak dikenali
+                                            };
+                                            @endphp
+                                            <form method="GET" action="{{ route($routeName) }}" class="d-flex ms-auto">
+                                                <select name="gender" class="form-select form-select-solid"
+                                                    data-kt-select2="true" data-placeholder="Select option"
+                                                    onchange="this.form.submit()">
+                                                    <option>Semua Santri</option>
+                                                    <option value="putra" {{ request('gender')=='putra' ? 'selected'
+                                                        : '' }}>Putra</option>
+                                                    <option value="putri" {{ request('gender')=='putri' ? 'selected'
+                                                        : '' }}>Putri</option>
+                                                </select>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2"
+                                            data-kt-menu-dismiss="true">Reset</button>
+                                        <button type="submit" class="btn btn-sm btn-primary"
+                                            data-kt-menu-dismiss="true">Apply</button>
+                                    </div>
+                                    <!--end::Actions-->
+                                </div>
+                                <!--end::Form-->
+                            </div>
+                            <!--end::Menu 1-->
+                        </div>
+
+                    </div>
+                    @endif
                     <!--end::Stat-->
                 </div>
 
@@ -176,9 +233,11 @@
                                     <a href="{{ asset('/admin/delete-santri('.$item->id.')') }}"
                                         class="btn btn-sm btn-light-danger">
                                         @method('delete') Hapus</a>
+
                                     @elseif(auth()->user()->role->name == 'kepalakamar')
                                     <a href="{{ asset('/kepalakamar/detail-santri('.$item->id.')') }}"
                                         class="btn btn-sm btn-light-success">Detail</a>
+
                                     @elseif(auth()->user()->role->name == 'asrama')
                                     <a href="{{ asset('/asrama/detail-santri('.$item->id.')') }}"
                                         class="btn btn-sm btn-light-success">Detail</a>

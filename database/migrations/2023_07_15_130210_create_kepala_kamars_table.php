@@ -12,9 +12,10 @@ return new class extends Migration {
     {
         Schema::create('kepala_kamars', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
             $table->string('username');
             $table->string('password');
-            $table->foreignId('kamar_id')->constrained('kamars')->onDelete('cascade');
+            $table->foreignId('kamar_id')->nullable();
             $table->timestamps();
         });
     }
