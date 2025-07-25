@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Kamar;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\KepalaKamar;
 use App\Models\Santri;
 use App\Models\Umana;
@@ -69,6 +70,25 @@ class DatabaseSeeder extends Seeder
         //   ,  'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]
+        Role::create([
+            'id' => '1',
+            'name' => 'admin',
+        ]);
+        Role::create([
+            'id' => '2',
+            'name' => 'asrama',
+        ]);
+        Role::create([
+            'id' => '3',
+            'name' => 'bendahara',
+        ]);
+        User::create([
+            'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
+            'name' => 'bendahara',
+            'email' => 'bendahara@gmail.com',
+            'password' => bcrypt('123'),
+            'role_id' => 3, // Gantilah 2 dengan ID peran yang sesuai
+        ]);
         User::create([
             'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
             'name' => 'asrama',
@@ -78,10 +98,10 @@ class DatabaseSeeder extends Seeder
         ]);
         User::create([
             'image' => 'EDLz4Qw0ql4jaQ0yC0HPMvUErsTSY50WpTxu7QZU.jpg',
-            'name' => 'kepalakamar',
-            'email' => 'kepalakamar@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
             'password' => bcrypt('123'),
-            'role_id' => 3, // Gantilah 2 dengan ID peran yang sesuai
+            'role_id' => 1, // Gantilah 2 dengan ID peran yang sesuai
         ]);
         // Santri::create([
         // 'kode' => 'S001',

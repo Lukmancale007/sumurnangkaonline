@@ -40,13 +40,14 @@ class SantriController extends Controller
         ));
     }
 
+    // SantriController.php
     public function create()
     {
-        //
-
         $kamars = Kamar::all();
-        return view('create', compact('kamars'));
+        return view('santri.create', compact('kamars'));
     }
+
+
 
     public function store(Request $request)
     {
@@ -85,7 +86,6 @@ class SantriController extends Controller
             $filePath = $request->file('image')->store('images', 'public');
         }
 
-        Santri::create($request->only('nama', 'kamar_id'));
 
         return back()->with('success', 'Alhamdulillah Data Santri Berhasil Ditambahkan');
     }
@@ -131,4 +131,22 @@ class SantriController extends Controller
         return view('admin.santri.index', ['santri' => $santri]);
         // return back ();
     }
+    public function getKetua($kamarId)
+    {
+        $kamar = Kamar::with('kepalaKamar')->find($kamarId);
+
+        if (!$kamar) {
+            return response()->json(['ketua' => 'Kamar tidak ditemukan']);
+        }
+
+        if (!$kamar->kepalaKamar) {
+            return response()->json(['ketua' => 'Ketua kamar tidak ditemukan']);
+        }
+
+        return response()->json([
+            'ketua' => $kamar->kepalaKamar->nama  // atau ->username, tergantung yang kamu pakai
+        ]);
+    }
+
+
 }

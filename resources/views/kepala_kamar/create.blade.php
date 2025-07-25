@@ -3,11 +3,16 @@
 @section('content')
 <div class="container">
     <h3>Tambah Kepala Kamar</h3>
-    <form action="{{ route('kepala_kamar.store') }}" method="POST">
+    <form action="{{ route('asrama.kepalakamar.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label>Nama Kepala Kamar</label>
             <input type="text" name="nama" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required>
         </div>
 
         <div class="mb-3">

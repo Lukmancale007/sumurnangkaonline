@@ -111,19 +111,25 @@
                         <label class="required fw-semibold fs-6 mb-2">Asrama</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="text" name="kamar_id" id="asrama" class="form-control mb-3 mb-lg-0"
-                            placeholder="asrama" required autocomplete="kamar_id    " />
-                        {{-- <select name="asrama" id="asrama" class="form-control">
+                        {{-- <input type="text" name="kamar_id" id="asrama" class="form-control mb-3 mb-lg-0"
+                            placeholder="asrama" required autocomplete="kamar_id    " /> --}}
+                        <select name="kamar_id" id="kamar_id" class="form-control">
                             <option value="">Pilih Asrama</option>
-                            <option value="">ID.12</option>
-                            @foreach($asrama as $a)
-                            <option value="{{$a->namaasrama}}">{{$a->namaasrama}}</option>
+                            @foreach($kamars as $kamar)
+                            <option value="{{$kamar->id}}">{{$kamar->nama_kamar}}</option>
                             @endforeach
-                        </select> --}}
+                        </select>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label for="ketua" class="required fw-semibold fs-6 mb-2">Ketua Kamar</label>
+                        <input type="text" id="ketua" class="form-control" readonly>
+
+                        <!--end::Label-->
+                    </div>
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="required fw-semibold fs-6 mb-2">Alamat</label>
@@ -152,7 +158,7 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" id="ayah" name="ayah" class="form-control mb-3 mb-lg-0" placeholder="ayah"
-                            required autocomplete="ayah" autofocus />
+                            required autocomplete="Ayah" autofocus />
                         <!--end::Input-->
                     </div>
                     <div class="fv-row mb-7">
@@ -161,7 +167,7 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input id="password-confirm" type="text" name="ibu" class="form-control mb-3 mb-lg-0"
-                            placeholder="ibu" required autocomplete="ibu" />
+                            placeholder="ibu" required autocomplete="Ibu" />
                         <!--end::Input-->
                     </div>
                     <!--begin::Actions-->
@@ -196,6 +202,23 @@
 </script>
 
 <script src="admin/assets/js/custom/utilities/modals/bidding.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#kamar_id').on('change', function() {
+        var kamarId = $(this).val();
 
+        if (kamarId) {
+            $.ajax({
+                url: '/get-ketua/' + kamarId,
+                type: 'GET',
+                success: function(data) {
+                    $('#ketua').val(data.ketua);
+                }
+            });
+        } else {
+            $('#ketua').val('');
+        }
+    });
+</script>
 
 {{-- @include('sweetalert::alert') --}}

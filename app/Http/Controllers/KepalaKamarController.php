@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Kamar;
 use App\Models\KepalaKamar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class KepalaKamarController extends Controller
 {
@@ -24,8 +25,10 @@ class KepalaKamarController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
             'kamar_id' => 'required|exists:kamars,id',
         ]);
 
@@ -39,6 +42,7 @@ class KepalaKamarController extends Controller
         $kepalaKamar = KepalaKamar::create([
             'nama' => $validated['nama'],
             'username' => $username,
+            'password' => Hash::make($validated['password']),
             'kamar_id' => $validated['kamar_id'],
         ]);
 
@@ -46,6 +50,6 @@ class KepalaKamarController extends Controller
         $kamar->kepala_kamar_id = $kepalaKamar->id;
         $kamar->save();
 
-        return redirect()->route('kepala_kamar.index')->with('success', 'Kepala kamar berhasil disimpan');
+        return redirect()->route('asrama.kepalakamar.index')->with('success', 'Kepala kamar berhasil disimpan');
     }
 }

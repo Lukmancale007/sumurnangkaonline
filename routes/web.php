@@ -70,10 +70,10 @@ Route::prefix('asrama')->middleware(['auth', 'role:asrama'])->group(function () 
     Route::get('detail-santri({id})', [App\Http\Controllers\Admin\SantriController::class, 'show']);
     Route::get('status/update', [StatusController::class, 'update'])->name('asrama.status.update');
 
-    // Route::resource('asrama', AsramaController::class);
-    // Route::get('tambah-asrama', [App\Http\Controllers\Admin\SantriController::class, 'create']);
-    // Route::get('edit-asrama({id})', [App\Http\Controllers\Admin\AsramaController::class, 'edit']);
-    // Route::get('delete-asrama({id})', [App\Http\Controllers\Admin\AsramaController::class, 'delete']);
+    Route::resource('kepala_kamar', KepalaKamarController::class)->names('asrama.kepalakamar');
+
+    Route::resource('/kamar', KamarController::class)->names('asrama.kamar');
+
 
 });
 
@@ -95,6 +95,7 @@ Route::prefix('kepalakamar')->middleware(['auth:kepalakamar'])->group(function (
     Route::get('delete-santri({id})', [App\Http\Controllers\Admin\SantriController::class, 'delete']);
     Route::get('detail-santri({id})', [App\Http\Controllers\Admin\SantriController::class, 'show']);
     Route::get('status/update', [StatusController::class, 'update'])->name('kepalakamar.status.update');
+
 });
 
 Route::get('berita/({slug})', [BeritaController::class, 'show']);
@@ -120,15 +121,8 @@ Route::prefix('bendahara')->middleware(['auth', 'role:bendahara'])->group(functi
 
 });
 
-Route::get('/santri/create', [SantriController::class, 'create']);
-Route::get('/api/kamar/{id}/ketua', [\App\Http\Controllers\admin\KamarController::class, 'getKetua']);
+Route::get('/get-ketua/{id}', [SantriController::class, 'getKetua']); //ini untuk inpUt kamar yang ketua kamarnya otomatis muncul
 
 
 Route::get('/absensikehadiran', [AbsensiUmanaController::class, 'index']);
 Route::post('/absensikehadiran', [AbsensiUmanaController::class, 'store'])->name('absensi.store');
-
-
-
-
-Route::resource('kepala_kamar', KepalaKamarController::class);
-Route::get('/kamar-index', [KamarController::class, 'index']);

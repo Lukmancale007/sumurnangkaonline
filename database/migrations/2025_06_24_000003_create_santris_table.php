@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('nama');
             $table->string('tanggal_lahir');
-            $table->foreignId('kamar_id')->constrained()->onDelete('cascade');
+            $table->foreignId('kamar_id')->constrained('kamars')->onDelete('cascade');
             $table->string('alamat');
             $table->string('ayah');
             $table->string('ibu');

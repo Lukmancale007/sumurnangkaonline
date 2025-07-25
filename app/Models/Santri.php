@@ -12,17 +12,19 @@ class Santri extends Model
     use HasStatuses;
     protected $table = 'santris';
     protected $fillable = [
-    'nis',
-    'image',
-    'nama',
-    'tanggal_lahir',
-    'gender',
-    'kamar_id',
-    'alamat',
-    'ayah',
-    'ibu'];
+        'nis',
+        'image',
+        'nama',
+        'tanggal_lahir',
+        'gender',
+        'kamar_id',
+        'alamat',
+        'ayah',
+        'ibu'
+    ];
     public static function boot()
-    { parent::boot();
+    {
+        parent::boot();
         static::creating(function ($santri) {
             $prefix = $santri->gender === 'putra' ? '202001' : '202002';
             $lastSantri = static::where('gender', $santri->gender)->orderBy('nis', 'desc')->first();
@@ -36,7 +38,7 @@ class Santri extends Model
             $santri->nis = $newNis;
         });
     }
-     public function kamar()
+    public function kamar()
     {
         return $this->belongsTo(Kamar::class);
     }

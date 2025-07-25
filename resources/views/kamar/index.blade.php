@@ -338,25 +338,25 @@
                                 <!--begin::Table-->
                                 <table class="table align-middle table-row-bordered table-row-solid gy-4 gs-9">
                                     <!--begin::Thead-->
-                                    <thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
-                                        <tr>
-                                            <th class="min-w-175px ps-9">Kamar</th>
-                                            <th class="min-w-175px ps-9">Gambar</th>
-                                            <th class="min-w-150px px-0">Kepala Kamar</th>
-                                            <th class="min-w-125px">Gambar</th>
-                                            <th class="min-w-350px">Wakil Kepala Kamar</th>
+                                    <thead class="border-gray-200 fs-5 fw-semibold bg-lighten bg-info ">
+                                        <tr class="text-white">
+                                            <th class="min-w-100px ps-9">Kamar</th>
+                                            <th class="min-w-100px ps-0">Gambar</th>
+                                            <th class="min-w-100px px-0">Kepala Kamar</th>
+                                            <th class="min-w-100px">Gambar</th>
+                                            <th class="min-w-100px">Wakil Kepala Kamar</th>
                                         </tr>
                                     </thead>
                                     <!--end::Thead-->
                                     <!--begin::Tbody-->
-                                    <tbody class="fs-6 fw-semibold text-gray-600">
+                                    <tbody class="fs-6 fw-semibold text-black">
                                         @foreach ($kamars as $kamar )
 
                                         <tr>
-                                            <td class="text-success">{{ $kamar->nama_kamar }}</td>
-                                            <td class="ps-9">gambar</td>
-                                            <td class="ps-0">{{ $kamar->kepalaKamar->nama ?? '-' }}</td>
-                                            <td class="ps-9">Gambar</td>
+                                            <td class="text-info">{{ $kamar->nama_kamar }}</td>
+                                            <td class="ps-9">.Jpg</td>
+                                            <td class="ps-0">Ust. {{ $kamar->kepalaKamar->nama ?? '-' }}</td>
+                                            <td class="ps-9">.Jpg</td>
                                             <td>Hersun Faid</td>
                                         </tr>
 
